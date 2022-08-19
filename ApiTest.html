@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API TEST</title>
+</head>
+<body>
+    <h1>API Test Kakao Developers Book Serach </h1>
+    <input id="serach" type="text" />
+    <button id="submit">검색</button>
+    <hr/>
+    <div id="book"></div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#submit").click(function() {
+        $.ajax({
+            method : "GET" ,
+            url : "https://dapi.kakao.com/v3/search/book?target=title&query=" + $("#serach").val() ,
+            headers : {Authorization: "KakaoAK 6cfd66314c9ca5daf6acb9fbbdae36ad"}
+        })
+        .done((data)=>{
+            const books = data;
+            $("#book").html(""); // 초기화
+            books.documents.forEach(function (item, index, array) {
+                console.log(item, index);
+                $("#book").append("<h2>"+ item.title +"</h2>")
+                $("#book").append("<img src=" + item.thumbnail + "/>")
+                $("#book").append("<p>"+ item.contents +"</p>")
+                $("#book").append("<hr/>")
+            })
+        })
+    });
+</script>
+</html>
